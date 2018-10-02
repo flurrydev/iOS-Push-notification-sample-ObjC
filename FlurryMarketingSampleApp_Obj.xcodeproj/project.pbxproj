@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		346533EC53557214CE39F662 /* libPods-FlurryMarketingSampleApp_Obj.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B6BB4D30C25F0FCFE1978EA2 /* libPods-FlurryMarketingSampleApp_Obj.a */; };
 		761583452163E42A00DCDB6C /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 761583442163E42A00DCDB6C /* AppDelegate.m */; };
 		761583482163E42A00DCDB6C /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761583472163E42A00DCDB6C /* ViewController.m */; };
 		7615834B2163E42A00DCDB6C /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 761583492163E42A00DCDB6C /* Main.storyboard */; };
@@ -26,6 +27,10 @@
 		7615834F2163E42B00DCDB6C /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		761583512163E42B00DCDB6C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		761583522163E42B00DCDB6C /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		761583592163E43D00DCDB6C /* FlurryMarketingSampleApp_Obj.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FlurryMarketingSampleApp_Obj.entitlements; sourceTree = "<group>"; };
+		77650ADC3EFFF1A641BD6CE7 /* Pods-FlurryMarketingSampleApp_Obj.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlurryMarketingSampleApp_Obj.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlurryMarketingSampleApp_Obj/Pods-FlurryMarketingSampleApp_Obj.debug.xcconfig"; sourceTree = "<group>"; };
+		B6BB4D30C25F0FCFE1978EA2 /* libPods-FlurryMarketingSampleApp_Obj.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlurryMarketingSampleApp_Obj.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F1B670ABA2A8E3C309E64B1F /* Pods-FlurryMarketingSampleApp_Obj.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlurryMarketingSampleApp_Obj.release.xcconfig"; path = "Pods/Target Support Files/Pods-FlurryMarketingSampleApp_Obj/Pods-FlurryMarketingSampleApp_Obj.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -33,17 +38,29 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				346533EC53557214CE39F662 /* libPods-FlurryMarketingSampleApp_Obj.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3CB73D468CA9272B1ACA1515 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				77650ADC3EFFF1A641BD6CE7 /* Pods-FlurryMarketingSampleApp_Obj.debug.xcconfig */,
+				F1B670ABA2A8E3C309E64B1F /* Pods-FlurryMarketingSampleApp_Obj.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
 		761583372163E42A00DCDB6C = {
 			isa = PBXGroup;
 			children = (
 				761583422163E42A00DCDB6C /* FlurryMarketingSampleApp_Obj */,
 				761583412163E42A00DCDB6C /* Products */,
+				3CB73D468CA9272B1ACA1515 /* Pods */,
+				DF609A847942FFD036192DB4 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -58,6 +75,7 @@
 		761583422163E42A00DCDB6C /* FlurryMarketingSampleApp_Obj */ = {
 			isa = PBXGroup;
 			children = (
+				761583592163E43D00DCDB6C /* FlurryMarketingSampleApp_Obj.entitlements */,
 				761583432163E42A00DCDB6C /* AppDelegate.h */,
 				761583442163E42A00DCDB6C /* AppDelegate.m */,
 				761583462163E42A00DCDB6C /* ViewController.h */,
@@ -71,6 +89,14 @@
 			path = FlurryMarketingSampleApp_Obj;
 			sourceTree = "<group>";
 		};
+		DF609A847942FFD036192DB4 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				B6BB4D30C25F0FCFE1978EA2 /* libPods-FlurryMarketingSampleApp_Obj.a */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -78,6 +104,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 761583562163E42B00DCDB6C /* Build configuration list for PBXNativeTarget "FlurryMarketingSampleApp_Obj" */;
 			buildPhases = (
+				E08B059CD3D94171FAD2F769 /* [CP] Check Pods Manifest.lock */,
 				7615833C2163E42A00DCDB6C /* Sources */,
 				7615833D2163E42A00DCDB6C /* Frameworks */,
 				7615833E2163E42A00DCDB6C /* Resources */,
@@ -102,6 +129,14 @@
 				TargetAttributes = {
 					7615833F2163E42A00DCDB6C = {
 						CreatedOnToolsVersion = 9.4.1;
+						SystemCapabilities = {
+							com.apple.BackgroundModes = {
+								enabled = 1;
+							};
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 				};
 			};
@@ -135,6 +170,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		E08B059CD3D94171FAD2F769 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-FlurryMarketingSampleApp_Obj-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		7615833C2163E42A00DCDB6C /* Sources */ = {
@@ -281,8 +337,10 @@
 		};
 		761583572163E42B00DCDB6C /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 77650ADC3EFFF1A641BD6CE7 /* Pods-FlurryMarketingSampleApp_Obj.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FlurryMarketingSampleApp_Obj/FlurryMarketingSampleApp_Obj.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S6JSG6FHB3;
 				INFOPLIST_FILE = FlurryMarketingSampleApp_Obj/Info.plist;
@@ -290,7 +348,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.flurry.FlurryMarketingSampleApp-Obj";
+				PRODUCT_BUNDLE_IDENTIFIER = Flurry.FlurryMarketingSampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -298,8 +356,10 @@
 		};
 		761583582163E42B00DCDB6C /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F1B670ABA2A8E3C309E64B1F /* Pods-FlurryMarketingSampleApp_Obj.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_ENTITLEMENTS = FlurryMarketingSampleApp_Obj/FlurryMarketingSampleApp_Obj.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = S6JSG6FHB3;
 				INFOPLIST_FILE = FlurryMarketingSampleApp_Obj/Info.plist;
@@ -307,7 +367,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.flurry.FlurryMarketingSampleApp-Obj";
+				PRODUCT_BUNDLE_IDENTIFIER = Flurry.FlurryMarketingSampleApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
