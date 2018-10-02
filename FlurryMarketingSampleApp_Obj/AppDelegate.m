@@ -18,16 +18,15 @@
 @interface AppDelegate () {
     CLLocationManager *locationManager;
 }
-
 @end
 
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    NSLog(@"here manual delegate");
+    NSLog(@"Manual Integeration Delegate");
     
-    // location service
+    // location service (optional), developers can send notifications to users based on location. If so, developers should ask for permission first.
     if ([CLLocationManager locationServicesEnabled]) {
         locationManager = [[CLLocationManager alloc] init];
         locationManager.delegate = self;
@@ -37,6 +36,7 @@
         
     }
     // MANUAL USE
+    
     // step 1 : register remote notification for ios version >= 10 or < 10
     if (@available(iOS 10.0, *)) {
         NSLog(@"version greater than or equal to 10");
@@ -61,21 +61,20 @@
         }
             
     }
-
+    
+    // get flurry infomation in the file "FlurryMarketingConfig.plist"
     NSString *file = [[NSBundle mainBundle] pathForResource:@"FlurryMarketingConfig" ofType:@"plist"];
     NSDictionary *info = [NSDictionary dictionaryWithContentsOfFile:file];
     
     // Flurry start
     [FlurryMessaging setMessagingDelegate:self];
     BOOL crashReport = [[NSString stringWithFormat:@"%@", [info objectForKey:@"enableCrashReport"]] isEqualToString:@"0"] ? NO : YES;
-    
     FlurrySessionBuilder* builder = [[[[[[FlurrySessionBuilder new] withLogLevel:FlurryLogLevelDebug]
                                         withCrashReporting:crashReport]
                                        withSessionContinueSeconds:[[info objectForKey:@"sessionSeconds"] integerValue]]
                                       withAppVersion:[info objectForKey:@"appVersion"]]
                                      withIncludeBackgroundSessionsInMetrics:YES] ;
     [Flurry startSession:[info objectForKey:@"apiKey"] withSessionBuilder:builder];
-    
     return YES;
 }
 
@@ -86,7 +85,8 @@
     NSLog(@"didReceiveMessage = %@", [message description]);
     // additional logic here
     
-    //ex: key value pair store
+    //ex: key value pair store. (FlurryMessage)message contians key-value pairs that set in the flurry portal when starting a compaign. You can get values by using message.appData["key name"]. In this sample app, all the key value information will be displayed in the KeyValueTableView.
+    
     NSUserDefaults *sharedPref = [NSUserDefaults standardUserDefaults];
     [sharedPref setObject:message.appData forKey:@"data"];
     [sharedPref synchronize];
@@ -98,7 +98,7 @@
     NSLog(@"didReceiveAction %@, Message = %@", identifier, [message description]);
     // additional logic here
     
-    //ex: key value pair store
+
     NSUserDefaults *sharedPref = [NSUserDefaults standardUserDefaults];
     [sharedPref setObject:message.appData forKey:@"data"];
     [sharedPref synchronize];
@@ -123,6 +123,7 @@
 
 # pragma mark - url scheme
 
+// Optional method, if developers want to use deeplink in the flurry dev portal, this method will open a resource specified by a URL (deeplink ex: flurry://marketing/deeplink), handle and manage the opening of registered urls and match those with specific destiniations within your app
 - (BOOL)application:(UIApplication *)app
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
@@ -133,7 +134,7 @@
         [nav pushViewController:deeplinkVC animated:YES];
         [self.window.rootViewController presentViewController:nav animated:YES completion:nil];
     }
-    // additional custom url scheme here to manage app deeplinking...
+    // else {...} additional custom url scheme here to manage app deeplinking...
     return YES;
 }
 
@@ -143,7 +144,7 @@
     [FlurryMessaging setDeviceToken:deviceToken];
 }
 
-// notification received & clicked (ios 7+)
+// notification received & clicked handling (ios 7+)
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler {
     // check if the notification is from Flurry
     if ([FlurryMessaging isFlurryMsg:userInfo]) {
@@ -153,7 +154,7 @@
     }
 }
 
-// notification received response (ios 10)
+// notification received response handling(ios 10)
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler  API_AVAILABLE(ios(10.0)){
     if ([FlurryMessaging isFlurryMsg:response.notification.request.content.userInfo]) {
         [FlurryMessaging receivedNotificationResponse:response withCompletionHandler:^{
@@ -167,6 +168,7 @@
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler  API_AVAILABLE(ios(10.0)){
     if ([FlurryMessaging isFlurryMsg:notification.request.content.userInfo]) {
         [FlurryMessaging presentNotification:notification withCompletionHandler:^{
+            // present user an alert if app is in foreground when a notification is coming
             completionHandler(UNNotificationPresentationOptionAlert);
         }];
     }
@@ -174,6 +176,7 @@
 
 
 # pragma mark - location service
+// If users change location authorization status, flurry will start/stop tracking user's location accordingly.
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
     if (status == kCLAuthorizationStatusAuthorizedWhenInUse || status == kCLAuthorizationStatusAuthorizedAlways) {
         BOOL permission = [Flurry trackPreciseLocation:YES];
@@ -183,7 +186,6 @@
         NSLog(@"%s: can track precise location: %d", __PRETTY_FUNCTION__, permission);
     }
 }
-
 
 @end
 
