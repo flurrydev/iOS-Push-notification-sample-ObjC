@@ -12,19 +12,17 @@
 
 int main(int argc, char * argv[]) {
     @autoreleasepool {
-        // default
-        // return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
-        
+        // get infomation in the file "FlurryNotificationConfig.json" to find out integraiton mode
         NSString* filePath = [[NSBundle mainBundle] pathForResource:@"FlurryNotificationConfig" ofType:@"json"];
         NSData *data = [NSData dataWithContentsOfFile:filePath];
         NSDictionary *jsonDict = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:nil];
         
         BOOL manualStyle =  ![[[[jsonDict objectForKey:@"FlurryNotificationSettings"] objectForKey:@"APNS"] objectForKey:@"isAutoIntegration"] boolValue];
         
+        // If manual style is yes, use AppDelegate class for Manual Use. If no, use AppDelegate_Auto class instead.
         NSString *delegateClass = manualStyle
         ? NSStringFromClass([AppDelegate class])
         : NSStringFromClass([AppDelegate_Auto class]);
         return UIApplicationMain(argc, argv, nil, delegateClass);
-        
     }
 }
