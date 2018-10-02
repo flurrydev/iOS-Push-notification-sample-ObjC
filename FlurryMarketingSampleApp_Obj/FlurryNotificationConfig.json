@@ -1,7 +1,0 @@
-{
-    "FlurryNotificationSettings": {
-        "APNS": {
-            "isAutoIntegration": false
-        }
-    }
-}

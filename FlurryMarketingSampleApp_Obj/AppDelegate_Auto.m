@@ -42,10 +42,10 @@
     
     // Flurry start
     [FlurryMessaging setMessagingDelegate:self];
-    BOOL crashReport = [[NSString stringWithFormat:@"%@", [info objectForKey:@"enableCrashReport"]] isEqualToString:@"0"] ? NO : YES;
-    
+    NSNumber * crashReport = [info valueForKey:@"enableCrashReport"];
+    BOOL enableCrashReport = [crashReport boolValue];
     FlurrySessionBuilder* builder = [[[[[[FlurrySessionBuilder new] withLogLevel:FlurryLogLevelDebug]
-                                        withCrashReporting:crashReport]
+                                        withCrashReporting:enableCrashReport]
                                        withSessionContinueSeconds:[[info objectForKey:@"sessionSeconds"] integerValue]]
                                       withAppVersion:[info objectForKey:@"appVersion"]]
                                      withIncludeBackgroundSessionsInMetrics:YES] ;
