@@ -19,7 +19,7 @@ int main(int argc, char * argv[]) {
         
         BOOL manualStyle =  ![[[[jsonDict objectForKey:@"FlurryNotificationSettings"] objectForKey:@"APNS"] objectForKey:@"isAutoIntegration"] boolValue];
         
-        // If manual style is yes, use AppDelegate class for Manual Use. If no, use AppDelegate_Auto class instead.
+        // If manual style is yes, use AppDelegate class for Manual Use. If no, use AppDelegate_Auto class instead
         NSString *delegateClass = manualStyle
         ? NSStringFromClass([AppDelegate class])
         : NSStringFromClass([AppDelegate_Auto class]);

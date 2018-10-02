@@ -139,12 +139,14 @@
 }
 
 # pragma mark - manual integration delegate method
-// set device token
+// UNUserNotificationCenterDelegate method : tells the delegate that the app successfully registered with Apple Push Notification service (APNs).
+// enable passing the device token to flurry
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [FlurryMessaging setDeviceToken:deviceToken];
 }
 
-// notification received & clicked handling (ios 7+)
+// tells the app that a remote notification arrived that indicates there is data to be fetched.
+// ios 7+
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler {
     // check if the notification is from Flurry
     if ([FlurryMessaging isFlurryMsg:userInfo]) {
@@ -154,17 +156,20 @@
     }
 }
 
-// notification received response handling(ios 10)
+// Process and handle the user's response to a delivered notification.
+// ios 10+ UNUserNotificationCenterDelegate method
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler  API_AVAILABLE(ios(10.0)){
     if ([FlurryMessaging isFlurryMsg:response.notification.request.content.userInfo]) {
         [FlurryMessaging receivedNotificationResponse:response withCompletionHandler:^{
             completionHandler();
+            // ... add your handling here
         }];
     }
 }
 
 
-// notification received in foreground (ios 10)
+// present user an alert if app is in foreground when a notification is coming
+// ios 10+ UNUserNotificationCenterDelegate mehod
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler  API_AVAILABLE(ios(10.0)){
     if ([FlurryMessaging isFlurryMsg:notification.request.content.userInfo]) {
         [FlurryMessaging presentNotification:notification withCompletionHandler:^{
