@@ -18,6 +18,7 @@
 		7615835E2163E66900DCDB6C /* FlurryMarketingConfig.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7615835D2163E66900DCDB6C /* FlurryMarketingConfig.plist */; };
 		761583612163E75900DCDB6C /* DeepLinkViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 761583602163E75900DCDB6C /* DeepLinkViewController.m */; };
 		761583632163EED800DCDB6C /* FlurryNotificationConfig.json in Resources */ = {isa = PBXBuildFile; fileRef = 761583622163EED800DCDB6C /* FlurryNotificationConfig.json */; };
+		761583662164084E00DCDB6C /* AppDelegate_Auto.m in Sources */ = {isa = PBXBuildFile; fileRef = 761583652164084E00DCDB6C /* AppDelegate_Auto.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,8 @@
 		7615835F2163E75900DCDB6C /* DeepLinkViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DeepLinkViewController.h; sourceTree = "<group>"; };
 		761583602163E75900DCDB6C /* DeepLinkViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeepLinkViewController.m; sourceTree = "<group>"; };
 		761583622163EED800DCDB6C /* FlurryNotificationConfig.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = FlurryNotificationConfig.json; sourceTree = "<group>"; };
+		761583642164084E00DCDB6C /* AppDelegate_Auto.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate_Auto.h; sourceTree = "<group>"; };
+		761583652164084E00DCDB6C /* AppDelegate_Auto.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate_Auto.m; sourceTree = "<group>"; };
 		77650ADC3EFFF1A641BD6CE7 /* Pods-FlurryMarketingSampleApp_Obj.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlurryMarketingSampleApp_Obj.debug.xcconfig"; path = "Pods/Target Support Files/Pods-FlurryMarketingSampleApp_Obj/Pods-FlurryMarketingSampleApp_Obj.debug.xcconfig"; sourceTree = "<group>"; };
 		B6BB4D30C25F0FCFE1978EA2 /* libPods-FlurryMarketingSampleApp_Obj.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-FlurryMarketingSampleApp_Obj.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F1B670ABA2A8E3C309E64B1F /* Pods-FlurryMarketingSampleApp_Obj.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-FlurryMarketingSampleApp_Obj.release.xcconfig"; path = "Pods/Target Support Files/Pods-FlurryMarketingSampleApp_Obj/Pods-FlurryMarketingSampleApp_Obj.release.xcconfig"; sourceTree = "<group>"; };
@@ -88,6 +91,8 @@
 				761583592163E43D00DCDB6C /* FlurryMarketingSampleApp_Obj.entitlements */,
 				761583432163E42A00DCDB6C /* AppDelegate.h */,
 				761583442163E42A00DCDB6C /* AppDelegate.m */,
+				761583642164084E00DCDB6C /* AppDelegate_Auto.h */,
+				761583652164084E00DCDB6C /* AppDelegate_Auto.m */,
 				761583462163E42A00DCDB6C /* ViewController.h */,
 				761583472163E42A00DCDB6C /* ViewController.m */,
 				7615835F2163E75900DCDB6C /* DeepLinkViewController.h */,
@@ -216,6 +221,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				761583482163E42A00DCDB6C /* ViewController.m in Sources */,
+				761583662164084E00DCDB6C /* AppDelegate_Auto.m in Sources */,
 				761583612163E75900DCDB6C /* DeepLinkViewController.m in Sources */,
 				7615835C2163E63B00DCDB6C /* KeyValueTableViewController.m in Sources */,
 				761583532163E42B00DCDB6C /* main.m in Sources */,
