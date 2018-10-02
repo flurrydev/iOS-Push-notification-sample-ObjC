@@ -24,7 +24,7 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     NSLog(@"auto delegate");
     
-    // location service
+    // location service (optional), developers can send notifications to users based on location. If so, developers should ask for permission first.
     if ([CLLocationManager locationServicesEnabled]) {
         locationManager = [[CLLocationManager alloc] init];
         locationManager.delegate = self;
@@ -33,8 +33,10 @@
         NSLog(@"Location Services are disabled");
         
     }
+    // set auto integration
     [FlurryMessaging setAutoIntegrationForMessaging];
     
+    // get flurry infomation in the file "FlurryMarketingConfig.plist"
     NSString *file = [[NSBundle mainBundle] pathForResource:@"FlurryMarketingConfig" ofType:@"plist"];
     NSDictionary *info = [NSDictionary dictionaryWithContentsOfFile:file];
     
@@ -48,7 +50,6 @@
                                       withAppVersion:[info objectForKey:@"appVersion"]]
                                      withIncludeBackgroundSessionsInMetrics:YES] ;
     [Flurry startSession:[info objectForKey:@"apiKey"] withSessionBuilder:builder];
-    
     return YES;
 }
 
@@ -59,7 +60,7 @@
     NSLog(@"didReceiveMessage = %@", [message description]);
     // additional logic here
     
-    //ex: key value pair store
+    //ex: key value pair store. (FlurryMessage)message contians key-value pairs that set in the flurry portal when starting a compaign. You can get values by using message.appData["key name"]. In this sample app, all the key value information will be displayed in the KeyValueTableView.
     NSUserDefaults *sharedPref = [NSUserDefaults standardUserDefaults];
     [sharedPref setObject:message.appData forKey:@"data"];
     [sharedPref synchronize];
@@ -96,6 +97,7 @@
 
 # pragma mark - url scheme
 
+// Optional method, if developers want to use deeplink in the flurry dev portal, this method will open a resource specified by a URL (deeplink ex: flurry://marketing/deeplink), handle and manage the opening of registered urls and match those with specific destiniations within your app
 - (BOOL)application:(UIApplication *)app
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
@@ -106,8 +108,20 @@
         [nav pushViewController:deeplinkVC animated:YES];
         [self.window.rootViewController presentViewController:nav animated:YES completion:nil];
     }
-    // additional custom url scheme here to manage app deeplinking...
+    // else {...} additional custom url scheme here to manage app deeplinking...
     return YES;
+}
+
+# pragma mark - location service
+// If users change location authorization status, flurry will start/stop tracking user's location accordingly.
+- (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
+    if (status == kCLAuthorizationStatusAuthorizedWhenInUse || status == kCLAuthorizationStatusAuthorizedAlways) {
+        BOOL permission = [Flurry trackPreciseLocation:YES];
+        NSLog(@"%s: can track precise location: %d", __PRETTY_FUNCTION__, permission);
+    } else if (status == kCLAuthorizationStatusDenied) {
+        BOOL permission = [Flurry trackPreciseLocation:NO];
+        NSLog(@"%s: can track precise location: %d", __PRETTY_FUNCTION__, permission);
+    }
 }
 
 @end
