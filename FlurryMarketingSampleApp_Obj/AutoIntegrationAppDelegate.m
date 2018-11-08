@@ -1,5 +1,5 @@
 //
-//  AppDelegate_Auto.m
+//  AutoIntegrationAppDelegate.m
 //  FlurryMarketingSampleApp_Obj
 //
 //  Created by Yilun Xu on 10/2/18.
