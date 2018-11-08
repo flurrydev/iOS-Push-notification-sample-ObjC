@@ -10,7 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <FlurryMessaging.h>
 
-@interface AppDelegate_Auto : UIResponder <UIApplicationDelegate, CLLocationManagerDelegate, FlurryMessagingDelegate>
+@interface AutoIntegrationAppDelegate : UIResponder <UIApplicationDelegate, CLLocationManagerDelegate, FlurryMessagingDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 

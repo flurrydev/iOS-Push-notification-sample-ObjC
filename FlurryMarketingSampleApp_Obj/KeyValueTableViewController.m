@@ -7,6 +7,7 @@
 //
 
 #import "KeyValueTableViewController.h"
+#import <AdSupport/AdSupport.h>
 
 @interface KeyValueTableViewController () {
     NSDictionary *appData;
@@ -17,6 +18,13 @@
 @end
 
 @implementation KeyValueTableViewController
+
+- (NSString *) identifierForAdvertising {
+    if([[ASIdentifierManager sharedManager] isAdvertisingTrackingEnabled]) {
+        NSUUID *IDFA = [[ASIdentifierManager sharedManager] advertisingIdentifier]; return [IDFA UUIDString];
+    }
+    return nil;
+}
 
 
 - (void)viewDidLoad {

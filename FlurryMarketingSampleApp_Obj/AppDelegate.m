@@ -13,6 +13,7 @@
 #import "FlurryMessaging.h"
 #import "ViewController.h"
 #import "DeepLinkViewController.h"
+// CoreLocation is not required here.
 #import <CoreLocation/CoreLocation.h>
 
 @interface AppDelegate () {
@@ -24,9 +25,8 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     
-    NSLog(@"Manual Integeration Delegate");
+    // location service (not required), developers can send notifications to users based on location. If so, developers should ask for permission first.
     
-    // location service (optional), developers can send notifications to users based on location. If so, developers should ask for permission first.
     if ([CLLocationManager locationServicesEnabled]) {
         locationManager = [[CLLocationManager alloc] init];
         locationManager.delegate = self;
@@ -35,11 +35,9 @@
         NSLog(@"Location Services are disabled");
         
     }
-    // MANUAL USE
     
-    // step 1 : register remote notification for ios version >= 10 or < 10
+    // register remote notification for ios version >= 10 or < 10
     if (@available(iOS 10.0, *)) {
-        NSLog(@"version greater than or equal to 10");
         if (@available(iOS 10.0, *)) {
             UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
             center.delegate = self;
@@ -53,7 +51,7 @@
             }];
         }
     } else {
-        NSLog(@"version less than 10");
+        // iOS version less than 10
         UIApplication *application = [UIApplication sharedApplication];
         if ([application respondsToSelector:@selector(isRegisteredForRemoteNotifications)]) {
             [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert) categories:nil]];
@@ -86,7 +84,12 @@
     NSLog(@"didReceiveMessage = %@", [message description]);
     // additional logic here
     
-    //ex: key value pair store. (FlurryMessage)message contians key-value pairs that set in the flurry portal when starting a compaign. You can get values by using message.appData["key name"]. In this sample app, all the key value information will be displayed in the KeyValueTableView.
+    /*
+     Ex: Key value pair store.
+     (FlurryMessage)message contians key-value pairs that set in the flurry portal when starting a compaign.
+     You can get values by using message.appData["key name"].
+     In this sample app,  all the key value information will be displayed in the KeyValueTableView.
+     */
     
     NSUserDefaults *sharedPref = [NSUserDefaults standardUserDefaults];
     [sharedPref setObject:message.appData forKey:@"data"];
@@ -99,7 +102,6 @@
     NSLog(@"didReceiveAction %@, Message = %@", identifier, [message description]);
     // additional logic here
     
-
     NSUserDefaults *sharedPref = [NSUserDefaults standardUserDefaults];
     [sharedPref setObject:message.appData forKey:@"data"];
     [sharedPref synchronize];
@@ -124,7 +126,12 @@
 
 # pragma mark - url scheme
 
-// Optional method, if developers want to use deeplink in the flurry dev portal, this method will open a resource specified by a URL (deeplink ex: flurry://marketing/deeplink), handle and manage the opening of registered urls and match those with specific destiniations within your app
+/*
+    Optional method for deeplink usage, this method opens a resource specified by a URL (deeplink ex: flurry://
+    marketing/deeplink). It handles and manages the opening of registered urls and match those with specific
+    destiniations within your app
+ */
+
 - (BOOL)application:(UIApplication *)app
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
@@ -139,15 +146,14 @@
     return YES;
 }
 
-# pragma mark - manual integration delegate method
-// UNUserNotificationCenterDelegate method : tells the delegate that the app successfully registered with Apple Push Notification service (APNs).
-// enable passing the device token to flurry
+# pragma mark - Notification Delegate Methods
+
+// Enable passing the device token to flurry
 -(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
     [FlurryMessaging setDeviceToken:deviceToken];
 }
 
-// tells the app that a remote notification arrived that indicates there is data to be fetched.
-// ios 7+
+// Tell the app that a remote notification arrived that indicates there is data to be fetched. (ios 7+)
 -(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler {
     // check if the notification is from Flurry
     if ([FlurryMessaging isFlurryMsg:userInfo]) {
@@ -158,19 +164,25 @@
 }
 
 // Process and handle the user's response to a delivered notification.
-// ios 10+ UNUserNotificationCenterDelegate method
 -(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler  API_AVAILABLE(ios(10.0)){
     if ([FlurryMessaging isFlurryMsg:response.notification.request.content.userInfo]) {
         [FlurryMessaging receivedNotificationResponse:response withCompletionHandler:^{
             completionHandler();
             // ... add your handling here
+            NSDictionary *userInfo = response.notification.request.content.userInfo;
+            NSDictionary *appData = userInfo[@"appData"];
+            if ([appData objectForKey:@"name"]) {
+                NSString *name = appData[@"name"];
+                NSLog(@"%@", name);
+            } else {
+                NSLog(@"no such key");
+            }
         }];
     }
 }
 
 
-// present user an alert if app is in foreground when a notification is coming
-// ios 10+ UNUserNotificationCenterDelegate mehod
+// present user an alert if app is in foreground when a notification is coming (ios 10+)
 - (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler  API_AVAILABLE(ios(10.0)){
     if ([FlurryMessaging isFlurryMsg:notification.request.content.userInfo]) {
         [FlurryMessaging presentNotification:notification withCompletionHandler:^{

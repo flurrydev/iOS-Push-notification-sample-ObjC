@@ -6,25 +6,25 @@
 //  Copyright © 2018 Flurry. All rights reserved.
 //
 
-#import "AppDelegate_Auto.h"
+#import "AutoIntegrationAppDelegate.h"
 #import "Flurry.h"
 #import "FlurryMessaging.h"
 #import "ViewController.h"
 #import "DeepLinkViewController.h"
+// CoreLocation is not required here.
 #import <CoreLocation/CoreLocation.h>
 
-@interface AppDelegate_Auto () {
+@interface AutoIntegrationAppDelegate () {
     CLLocationManager *locationManager;
 }
 
 @end
 
-@implementation AppDelegate_Auto
+@implementation AutoIntegrationAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    NSLog(@"auto delegate");
-    
-    // location service (optional), developers can send notifications to users based on location. If so, developers should ask for permission first.
+
+    // ask for location permission from users if devs want to send notification based on location
     if ([CLLocationManager locationServicesEnabled]) {
         locationManager = [[CLLocationManager alloc] init];
         locationManager.delegate = self;
@@ -60,7 +60,13 @@
     NSLog(@"didReceiveMessage = %@", [message description]);
     // additional logic here
     
-    //ex: key value pair store. (FlurryMessage)message contians key-value pairs that set in the flurry portal when starting a compaign. You can get values by using message.appData["key name"]. In this sample app, all the key value information will be displayed in the KeyValueTableView.
+    /*
+        Ex: Key value pair store.
+        (FlurryMessage)message contians key-value pairs that set in the flurry portal when starting a compaign.
+        You can get values by using message.appData["key name"].
+        In this sample app,  all the key value information will be displayed in the KeyValueTableView.
+    */
+    
     NSUserDefaults *sharedPref = [NSUserDefaults standardUserDefaults];
     [sharedPref setObject:message.appData forKey:@"data"];
     [sharedPref synchronize];
@@ -97,7 +103,11 @@
 
 # pragma mark - url scheme
 
-// Optional method, if developers want to use deeplink in the flurry dev portal, this method will open a resource specified by a URL (deeplink ex: flurry://marketing/deeplink), handle and manage the opening of registered urls and match those with specific destiniations within your app
+/*
+    Optional method for deeplink usage, this method opens a resource specified by a URL (deeplink ex: flurry://
+    marketing/deeplink). It handles and manages the opening of registered urls and match those with specific
+    destiniations within your app
+ */
 - (BOOL)application:(UIApplication *)app
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
