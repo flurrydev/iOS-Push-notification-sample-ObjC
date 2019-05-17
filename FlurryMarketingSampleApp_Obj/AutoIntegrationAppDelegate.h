@@ -1,5 +1,5 @@
 //
-//  AppDelegate.h
+//  AutoIntegrationAppDelegate.h
 //  FlurryMarketingSampleApp_Obj
 //
 //  Created by Yilun Xu on 10/2/18.
@@ -7,14 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <UserNotifications/UserNotifications.h>
-#import "FlurryMessaging.h"
 #import <CoreLocation/CoreLocation.h>
+#import <FlurryMessaging.h>
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate, UNUserNotificationCenterDelegate, FlurryMessagingDelegate, CLLocationManagerDelegate>
+@interface AutoIntegrationAppDelegate : UIResponder <UIApplicationDelegate, CLLocationManagerDelegate, FlurryMessagingDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 
-
 @end
-

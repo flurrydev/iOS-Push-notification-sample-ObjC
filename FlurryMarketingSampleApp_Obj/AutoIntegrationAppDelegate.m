@@ -1,32 +1,30 @@
 //
-//  AppDelegate.m
+//  AutoIntegrationAppDelegate.m
 //  FlurryMarketingSampleApp_Obj
 //
 //  Created by Yilun Xu on 10/2/18.
 //  Copyright © 2018 Flurry. All rights reserved.
 //
 
-#import "AppDelegate.h"
+#import "AutoIntegrationAppDelegate.h"
 #import "Flurry.h"
-#import <NotificationCenter/NotificationCenter.h>
-#import <UserNotifications/UserNotifications.h>
 #import "FlurryMessaging.h"
 #import "ViewController.h"
 #import "DeepLinkViewController.h"
 // CoreLocation is not required here.
 #import <CoreLocation/CoreLocation.h>
 
-@interface AppDelegate () {
+@interface AutoIntegrationAppDelegate () {
     CLLocationManager *locationManager;
 }
+
 @end
 
-@implementation AppDelegate
+@implementation AutoIntegrationAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    
-    // location service (not required), developers can send notifications to users based on location. If so, developers should ask for permission first.
-    
+
+    // ask for location permission from users if devs want to send notification based on location
     if ([CLLocationManager locationServicesEnabled]) {
         locationManager = [[CLLocationManager alloc] init];
         locationManager.delegate = self;
@@ -35,30 +33,8 @@
         NSLog(@"Location Services are disabled");
         
     }
-    
-    // register remote notification for ios version >= 10 or < 10
-    if (@available(iOS 10.0, *)) {
-        if (@available(iOS 10.0, *)) {
-            UNUserNotificationCenter *center = [UNUserNotificationCenter currentNotificationCenter];
-            center.delegate = self;
-            [center requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert) completionHandler:^(BOOL granted, NSError * _Nullable error){
-                if (!error && granted) {
-                    [application registerForRemoteNotifications];
-                    NSLog(@"Push registetration success!");
-                } else {
-                    NSLog(@"Push registration Failed. ERROR : %@ - %@", error.localizedFailureReason, error.localizedDescription);
-                }
-            }];
-        }
-    } else {
-        // iOS version less than 10
-        UIApplication *application = [UIApplication sharedApplication];
-        if ([application respondsToSelector:@selector(isRegisteredForRemoteNotifications)]) {
-            [application registerUserNotificationSettings:[UIUserNotificationSettings settingsForTypes:(UIUserNotificationTypeSound | UIUserNotificationTypeAlert) categories:nil]];
-            [application registerForRemoteNotifications];
-        }
-            
-    }
+    // set auto integration
+    [FlurryMessaging setAutoIntegrationForMessaging];
     
     // get flurry infomation in the file "FlurryMarketingConfig.plist"
     NSString *file = [[NSBundle mainBundle] pathForResource:@"FlurryMarketingConfig" ofType:@"plist"];
@@ -85,11 +61,11 @@
     // additional logic here
     
     /*
-     Ex: Key value pair store.
-     (FlurryMessage)message contians key-value pairs that set in the flurry portal when starting a compaign.
-     You can get values by using message.appData["key name"].
-     In this sample app,  all the key value information will be displayed in the KeyValueTableView.
-     */
+        Ex: Key value pair store.
+        (FlurryMessage)message contians key-value pairs that set in the flurry portal when starting a compaign.
+        You can get values by using message.appData["key name"].
+        In this sample app,  all the key value information will be displayed in the KeyValueTableView.
+    */
     
     NSUserDefaults *sharedPref = [NSUserDefaults standardUserDefaults];
     [sharedPref setObject:message.appData forKey:@"data"];
@@ -102,6 +78,7 @@
     NSLog(@"didReceiveAction %@, Message = %@", identifier, [message description]);
     // additional logic here
     
+    //ex: key value pair store
     NSUserDefaults *sharedPref = [NSUserDefaults standardUserDefaults];
     [sharedPref setObject:message.appData forKey:@"data"];
     [sharedPref synchronize];
@@ -131,7 +108,6 @@
     marketing/deeplink). It handles and manages the opening of registered urls and match those with specific
     destiniations within your app
  */
-
 - (BOOL)application:(UIApplication *)app
             openURL:(NSURL *)url
             options:(NSDictionary<UIApplicationOpenURLOptionsKey, id> *)options {
@@ -146,51 +122,6 @@
     return YES;
 }
 
-# pragma mark - Notification Delegate Methods
-
-
--(void)application:(UIApplication *)application didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    // Enable passing the device token to flurry
-    [FlurryMessaging setDeviceToken:deviceToken];
-}
-
--(void)application:(UIApplication *)application didReceiveRemoteNotification:(NSDictionary *)userInfo fetchCompletionHandler:(nonnull void (^)(UIBackgroundFetchResult))completionHandler {
-    // check if the notification is from Flurry
-    if ([FlurryMessaging isFlurryMsg:userInfo]) {
-        [FlurryMessaging receivedRemoteNotification:userInfo withCompletionHandler:^{
-            completionHandler(UIBackgroundFetchResultNewData);
-        }];
-    }
-}
-
--(void)userNotificationCenter:(UNUserNotificationCenter *)center didReceiveNotificationResponse:(UNNotificationResponse *)response withCompletionHandler:(void (^)(void))completionHandler  API_AVAILABLE(ios(10.0)){
-    if ([FlurryMessaging isFlurryMsg:response.notification.request.content.userInfo]) {
-        [FlurryMessaging receivedNotificationResponse:response withCompletionHandler:^{
-            completionHandler();
-            // ... add your handling here
-            NSDictionary *userInfo = response.notification.request.content.userInfo;
-            NSDictionary *appData = userInfo[@"appData"];
-            if ([appData objectForKey:@"name"]) {
-                NSString *name = appData[@"name"];
-                NSLog(@"%@", name);
-            } else {
-                NSLog(@"no such key");
-            }
-        }];
-    }
-}
-
-
-- (void)userNotificationCenter:(UNUserNotificationCenter *)center willPresentNotification:(UNNotification *)notification withCompletionHandler:(void (^)(UNNotificationPresentationOptions))completionHandler  API_AVAILABLE(ios(10.0)){
-    if ([FlurryMessaging isFlurryMsg:notification.request.content.userInfo]) {
-        [FlurryMessaging presentNotification:notification withCompletionHandler:^{
-            // present user an alert if app is in foreground when a notification is coming
-            completionHandler(UNNotificationPresentationOptionAlert);
-        }];
-    }
-}
-
-
 # pragma mark - location service
 // If users change location authorization status, flurry will start/stop tracking user's location accordingly.
 - (void)locationManager:(CLLocationManager *)manager didChangeAuthorizationStatus:(CLAuthorizationStatus)status{
@@ -204,4 +135,3 @@
 }
 
 @end
-

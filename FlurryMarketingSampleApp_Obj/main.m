@@ -8,9 +8,19 @@
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
+#import "AutoIntegrationAppDelegate.h"
 
 int main(int argc, char * argv[]) {
     @autoreleasepool {
-        return UIApplicationMain(argc, argv, nil, NSStringFromClass([AppDelegate class]));
+        // get infomation in the file "FlurryNotificationConfig.json" to find out integraiton mode
+        NSString *file = [[NSBundle mainBundle] pathForResource:@"FlurryMarketingConfig" ofType:@"plist"];
+        NSDictionary *data = [NSDictionary dictionaryWithContentsOfFile:file];
+        NSNumber * manualStyle = [data valueForKey:@"isAuto"];
+        BOOL isAuto = [manualStyle boolValue];
+        // If manual style is yes, use AppDelegate class for Manual Use. If no, use AppDelegate_Auto class instead
+        NSString *delegateClass = isAuto
+        ? NSStringFromClass([AutoIntegrationAppDelegate class])
+        : NSStringFromClass([AppDelegate class]);
+        return UIApplicationMain(argc, argv, nil, delegateClass);
     }
 }
