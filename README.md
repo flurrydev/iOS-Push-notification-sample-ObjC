@@ -1,6 +1,6 @@
 # Flurry Marketing Sample Application (Obj Version)
 
-This is an Objective-C version sample app based on Flurry Push service. See [Swift version](https://git.ouroath.com/yxu03/FlurryMarketingSampleApp_Swift) here. Flurry Push enables external app developers to send targeted messages to re-engage and retain users.<br/>
+This is an Objective-C version sample app based on Flurry Push service. See [Swift version](https://github.com/flurrydev/iOS-Push-notification-sample-swift) here. Flurry Push enables external app developers to send targeted messages to re-engage and retain users.<br/>
 
 Detailed instructions are written in [Yahoo Developer Network Website](https://developer.yahoo.com/flurry/docs/push/integration/ios/). Developers can choose either auto integration mode or manual integration mode. There are two AppDelegate in this project. If choosing auto mode, please change value to YES under key "isAuto" in the FlurryMarketingConfig.plist file. If choosing manual mode, change the boolean value to NO instead. In the main function, appropriate AppDelegate will be used based on "isAuto" value. (AppDelegate_Auto.m -> Auto Use, AppDelegate.m -> Manual Use). 
 
