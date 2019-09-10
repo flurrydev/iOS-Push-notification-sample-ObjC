@@ -43,7 +43,10 @@
             center.delegate = self;
             [center requestAuthorizationWithOptions:(UNAuthorizationOptionSound | UNAuthorizationOptionAlert) completionHandler:^(BOOL granted, NSError * _Nullable error){
                 if (!error && granted) {
-                    [application registerForRemoteNotifications];
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                      [application registerForRemoteNotifications];
+                    });
+                    
                     NSLog(@"Push registetration success!");
                 } else {
                     NSLog(@"Push registration Failed. ERROR : %@ - %@", error.localizedFailureReason, error.localizedDescription);
