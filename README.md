@@ -7,7 +7,7 @@
 
 This app is for iPhone only.
 
-Detailed instructions are written in [Yahoo Developer Network Website] (https://developer.yahoo.com/flurry/docs/push/integration/ios/).
+Detailed instructions are written in [Yahoo Developer Network Website](https://developer.yahoo.com/flurry/docs/push/integration/ios/).
 
 This is an Objective-C version sample app based on Flurry Push service. See [Swift version](https://github.com/flurrydev/iOS-Push-notification-sample-swift) here. Flurry Push enables external app developers to send targeted messages to re-engage and retain users.<br/>
 
