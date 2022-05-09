@@ -1,19 +1,21 @@
 PODS:
-  - Flurry-iOS-SDK/FlurryMessaging (10.0.0):
+  - Flurry-iOS-SDK/CrashReporter (12.0.0)
+  - Flurry-iOS-SDK/FlurryMessaging (12.0.0):
     - Flurry-iOS-SDK/FlurrySDK
-  - Flurry-iOS-SDK/FlurrySDK (10.0.0)
+  - Flurry-iOS-SDK/FlurrySDK (12.0.0):
+    - Flurry-iOS-SDK/CrashReporter
 
 DEPENDENCIES:
   - Flurry-iOS-SDK/FlurryMessaging
   - Flurry-iOS-SDK/FlurrySDK
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
+  trunk:
     - Flurry-iOS-SDK
 
 SPEC CHECKSUMS:
-  Flurry-iOS-SDK: 8e3d258a4b8660050ceed56953db411fca34a911
+  Flurry-iOS-SDK: 9fe953e13199a56c93d769d51abeb042fe45b02c
 
-PODFILE CHECKSUM: 9e0dc277fab9e55e8b6e2a80a4c24d8432d4e206
+PODFILE CHECKSUM: 144ce5ab254a9d04114e18ba1c5892d9baeff7e7
 
-COCOAPODS: 1.7.5
+COCOAPODS: 1.11.2
